@@ -1,8 +1,8 @@
 # SmartSDK
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/SmartSDK/badge.png)](http://cocoadocs.org/docsets/SmartSDK)
+<!-- [![Version](http://cocoapod-badges.herokuapp.com/v/SmartSDK/badge.png)](http://cocoadocs.org/docsets/SmartSDK)
 [![Platform](http://cocoapod-badges.herokuapp.com/p/SmartSDK/badge.png)](http://cocoadocs.org/docsets/SmartSDK)
-
+ -->
 ## Usage
 
 To run the example project; clone the repo, and run `pod install` from the Example directory first.
@@ -18,7 +18,7 @@ it simply add the following line to your Podfile:
 
 ## Author
 
-h_luo, h_luo@dreamarts.co.jp
+fzcs, fzcs@live.cn
 
 ## License
 
