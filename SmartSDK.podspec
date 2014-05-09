@@ -19,12 +19,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '6.0'
   s.requires_arc = true
 
-  s.source_files = 'Classes'
+  s.source_files = 'Classes/**/*.{h,m}'
 
-
-
-  # s.public_header_files = 'Classes/**/*.h'
-  # s.frameworks = 'SomeFramework', 'AnotherFramework'
   s.dependency 'AFNetworking', '~> 2.0'
   s.dependency 'MBProgressHUD', '~> 0.8'
   s.dependency 'jastor', '~> 0.2.1'
