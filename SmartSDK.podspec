@@ -17,16 +17,15 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '6.0'
   s.ios.deployment_target = '6.0'
-  # s.osx.deployment_target = '10.7'
   s.requires_arc = true
 
   s.source_files = 'Classes'
-  #s.resources = 'Assets/*.png'
 
-  #s.ios.exclude_files = 'Classes/ios'
-  #s.osx.exclude_files = 'Classes/osx'
+
+
   # s.public_header_files = 'Classes/**/*.h'
   # s.frameworks = 'SomeFramework', 'AnotherFramework'
   s.dependency 'AFNetworking', '~> 2.0'
-  #s.dependency 'MBProgressHUD', '~> 0.8'
+  s.dependency 'MBProgressHUD', '~> 0.8'
+  s.dependency 'jastor', '~> 0.2.1'
 end
