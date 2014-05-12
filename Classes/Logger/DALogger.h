@@ -24,4 +24,7 @@
 
 + (void)initWithLoggerType:(DALoggerType)type logLevel:(int)level;
 
++ (BOOL)matchLevel:(int)level;
+
++ (int)currentLevel;
 @end

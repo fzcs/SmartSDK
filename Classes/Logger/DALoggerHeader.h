@@ -29,14 +29,14 @@
 
 typedef NS_ENUM(NSUInteger, DALoggerType) {
 
-    //向系统日志写log
-    DALogToASL  = 0,
+        //向系统日志写log
+        DALogToASL = 0,
 
-    //向Xcode控制台写log
-    DALogToCLI  = 1 << 0,
+        //向Xcode控制台写log
+        DALogToCLI = 1 << 0,
 
-    //向文件写log
-    DALogToFile = 1 << 1,
+        //向文件写log
+        DALogToFile = 1 << 1,
 };
 
 

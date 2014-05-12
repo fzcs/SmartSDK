@@ -7,10 +7,16 @@
 //
 
 #import "DALogger.h"
+#import "DALoggerAFNetwork.h"
+
+static int DALOG_LEVEL;
 
 @implementation DALogger
 
 + (void)initWithLoggerType:(DALoggerType)type logLevel:(int)level {
+
+    DALOG_LEVEL = level;
+
     DALoggerFormatter *formatter = [[DALoggerFormatter alloc] init];
 
     if (type & DALogToASL) {
@@ -40,7 +46,17 @@
         operationLogger.logFormatter = [[DALoggerFormatter alloc] init];
         [DDLog addLogger:operationLogger withLogLevel:LOG_LEVEL_OPERATION];
     }
+
+    [[DALoggerAFNetwork sharedLogger] startLogging];
+
 }
 
++ (BOOL)matchLevel:(int)level {
+    return (level & DALOG_LEVEL) == level;
+}
+
++ (int)currentLevel {
+    return DALOG_LEVEL;
+}
 
 @end
