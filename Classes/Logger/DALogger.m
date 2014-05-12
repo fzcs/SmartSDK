@@ -10,16 +10,16 @@
 
 @implementation DALogger
 
-+ (void)initWithLoggerType:(DALoggerType)type {
++ (void)initWithLoggerType:(DALoggerType)type logLevel:(int)level {
     DALoggerFormatter *formatter = [[DALoggerFormatter alloc] init];
 
     if (type & DALogToASL) {
         [DDTTYLogger sharedInstance].logFormatter = formatter;
-        [DDLog addLogger:[DDASLLogger sharedInstance] withLogLevel:ddLogLevel | LOG_LEVEL_OPERATION];
+        [DDLog addLogger:[DDASLLogger sharedInstance] withLogLevel:level | LOG_LEVEL_OPERATION];
     }
     if (type & DALogToCLI) {
         [DDTTYLogger sharedInstance].logFormatter = formatter;
-        [DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:ddLogLevel | LOG_LEVEL_OPERATION];
+        [DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:level | LOG_LEVEL_OPERATION];
     }
     if (type & DALogToFile) {
         // init default logger

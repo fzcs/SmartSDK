@@ -11,6 +11,6 @@
 
 @interface DALogger : NSObject
 
-+ (void)initWithLoggerType:(DALoggerType)type;
++ (void)initWithLoggerType:(DALoggerType)type logLevel:(int)level;
 
 @end
