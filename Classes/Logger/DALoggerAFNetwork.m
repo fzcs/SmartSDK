@@ -10,12 +10,15 @@
 #import "AFURLConnectionOperation.h"
 #import "AFURLSessionManager.h"
 #import <objc/runtime.h>
+#import "DALogger.h"
+
+static int ddLogLevel;
 
 @implementation DALoggerAFNetwork
 
 + (instancetype)sharedLogger {
     static DALoggerAFNetwork *_sharedLogger = nil;
-
+    ddLogLevel = [DALogger currentLevel];
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedLogger = [[self alloc] init];
@@ -58,12 +61,12 @@ static void *AFNetworkRequestStartDate = &AFNetworkRequestStartDate;
     NSString *body = nil;
 
 
-    if (LOG_VERBOSE == LOG_FLAG_VERBOSE || LOG_DEBUG == LOG_FLAG_DEBUG) {
+    if ([DALogger matchLevel:LOG_FLAG_VERBOSE] || [DALogger matchLevel:LOG_FLAG_DEBUG]) {
         if ([request HTTPBody]) {
             body = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
         }
         DDLogDebug(@"%@ '%@': %@ %@", [request HTTPMethod], [[request URL] absoluteString], [request allHTTPHeaderFields], body);
-    } else if (LOG_INFO == LOG_FLAG_INFO) {
+    } else if ([DALogger matchLevel:LOG_FLAG_INFO]) {
         DDLogInfo(@"%@ '%@'", [request HTTPMethod], [[request URL] absoluteString]);
     }
 
@@ -97,13 +100,13 @@ static void *AFNetworkRequestStartDate = &AFNetworkRequestStartDate;
     NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:objc_getAssociatedObject(notification.object, AFNetworkRequestStartDate)];
 
     if (error) {
-        if (LOG_WARN == LOG_FLAG_WARN || LOG_ERROR == LOG_FLAG_ERROR) {
+        if ([DALogger matchLevel:LOG_FLAG_WARN] || [DALogger matchLevel:LOG_FLAG_ERROR]) {
             DDLogError(@"[Error] %@ '%@' (%ld) [%.04f s]: %@", [request HTTPMethod], [[response URL] absoluteString], (long) responseStatusCode, elapsedTime, error);
         }
     } else {
-        if (LOG_VERBOSE == LOG_FLAG_VERBOSE || LOG_DEBUG == LOG_FLAG_DEBUG) {
+        if ([DALogger matchLevel:LOG_FLAG_VERBOSE ]|| [DALogger matchLevel:LOG_FLAG_DEBUG]) {
             DDLogDebug(@"%ld '%@' [%.04f s]: %@ %@", (long) responseStatusCode, [[response URL] absoluteString], elapsedTime, responseHeaderFields, responseString);
-        } else if (LOG_INFO == LOG_FLAG_INFO) {
+        } else if ([DALogger matchLevel:LOG_FLAG_INFO]) {
             DDLogInfo(@"%ld '%@' [%.04f s]", (long) responseStatusCode, [[response URL] absoluteString], elapsedTime);
         }
     }
