@@ -23,7 +23,6 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes/**/*.{h,m}'
 
   s.dependency 'AFNetworking', '~> 2.0'
-  s.dependency 'AFNetworkActivityLogger', '~> 2.0'
   s.dependency 'MBProgressHUD', '~> 0.8'
   s.dependency 'jastor', '~> 0.2.1'
   s.dependency 'CocoaLumberjack', '~> 1.8.1'
