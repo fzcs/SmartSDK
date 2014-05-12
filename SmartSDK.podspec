@@ -12,7 +12,8 @@ Pod::Spec.new do |s|
   s.screenshots      = "http://www.dreamarts.com.cn/images/content/hi_1.png", "http://www.dreamarts.com.cn/images/content/hi_4.jpg"
   s.license          = 'MIT'
   s.author           = { "fzcs" => "fzcs@live.cn" }
-  s.source           = { :git => "https://github.com/fzcs/SmartSDK.git", :tag => s.version.to_s }
+  #s.source          = { :git => "https://github.com/fzcs/SmartSDK.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/fzcs/SmartSDK.git" }
   s.social_media_url = 'http://www.dreamarts.com.cn'
 
   s.platform     = :ios, '6.0'
@@ -24,4 +25,5 @@ Pod::Spec.new do |s|
   s.dependency 'AFNetworking', '~> 2.0'
   s.dependency 'MBProgressHUD', '~> 0.8'
   s.dependency 'jastor', '~> 0.2.1'
+  s.dependency 'CocoaLumberjack', '~> 1.8.1'
 end
