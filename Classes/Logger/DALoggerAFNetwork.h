@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworkActivityLogger.h"
 
 @interface DALoggerAFNetwork : NSObject
 
