@@ -20,7 +20,30 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '6.0'
   s.requires_arc = true
 
-  s.source_files = 'Classes/**/*.{h,m}'
+  s.source_files = 'SmartSDK/SmartSDK.h'
+
+  s.subspec 'Entity' do |ss|
+    ss.source_files = 'SmartSDK/Entity/**/*.{h,m}'
+  end
+
+  s.subspec 'Logger' do |ss|
+    ss.source_files = 'SmartSDK/Logger/**/*.{h,m}'
+  end
+
+  s.subspec 'Rest' do |ss|
+    ss.source_files = 'SmartSDK/Rest/**/*.{h,m}'
+  end
+
+  s.subspec 'Storable' do |ss|
+    ss.source_files = 'SmartSDK/Storable/**/*.{h,m}'
+  end
+  
+  s.subspec 'Util' do |ss|
+    ss.source_files = 'SmartSDK/Util/**/*.{h,m}'
+  end
+
+
+
 
   s.dependency 'AFNetworking', '~> 2.0'
   s.dependency 'AFNetworking-RACExtensions', '~> 0.1.2'
