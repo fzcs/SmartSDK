@@ -6,8 +6,7 @@
     
     NSMutableArray *result = [[NSMutableArray alloc]initWithCapacity:[array count]];
     for (NSDictionary *dic in array) {
-        DACategory *obj = [[DACategory alloc] initWithDictionary: dic];
-        [result addObject:obj];
+        [result addObject:[self initWithDictionary: dic]];
     }
     return result;
 }
