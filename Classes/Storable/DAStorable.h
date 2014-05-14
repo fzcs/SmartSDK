@@ -1,6 +1,5 @@
 //
 //  DAStorable.h
-//  Pods
 //
 //  Created by 罗浩 on 14-5-13.
 //
@@ -27,15 +26,17 @@
  */
 
 - (id)loadByKey:(NSString *)key;
-
++ (id)loadByKey:(NSString *)key;
 /**
  存储对象
  */
-- (id)store:(id)obj withKey:(NSString *)key;
+- (BOOL)store:(id)obj withKey:(NSString *)key;
++ (BOOL)store:(id)obj withKey:(NSString *)key;
 
 /**
- 设置存储文件的路径
+ 存储文件的路径
  */
-@property(nonatomic, strong) NSString *storeDirPath;
+@property(nonatomic, strong) NSString *storeDir;
+
 
 @end

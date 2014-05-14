@@ -14,4 +14,7 @@
 
 // 文字列がnil・空文字でない
 + (BOOL)isNotEmpty:(NSString *)str;
+
+
+- (NSDate *)toDate;
 @end

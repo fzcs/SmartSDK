@@ -17,4 +17,13 @@
 + (BOOL)isNotEmpty:(NSString *)str {
     return (str && 0 < str.length);
 }
+
+- (NSDate *)toDate{
+    if(!self){
+        return nil;
+    }
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    return [dateFormatter dateFromString:self];
+}
 @end
