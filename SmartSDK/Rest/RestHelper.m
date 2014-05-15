@@ -18,7 +18,7 @@
 
 #define kHTTPCookie         @"jp.co.dreamarts.smart.sdk.cookie"
 #define kHTTPCsrfToken      @"jp.co.dreamarts.smart.sdk.csrftoken"
-#define kHTTPCookieName     @"smartcore.sid"
+#define kHTTPCookieName     @"ShotEyesWeb.sid"
 
 @interface RestHelper () <UIWebViewDelegate>
 @property RACSubject *authSignal;
