@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "SRWebSocket.h"
 
+#define nfSocketConnOpened    @"nf_socketio_conn_opened"
+#define nfSocketErrorOccured  @"nf_socketio_error_occured"
+#define nfSocketConnClosed    @"nf_socketio_conn_closed"
+#define nfSocketMsgReceived   @"nf_socketio_msg_received"
+
 @interface DAWebSocket : NSObject<SRWebSocketDelegate>
 
 /**

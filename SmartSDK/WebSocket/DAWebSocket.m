@@ -72,16 +72,15 @@ static int ddLogLevel;
 }
 
 - (void)webSocketDidOpen:(SRWebSocket *)newWebSocket {
-    [self.socketer send:@"hello"];
     DDLogInfo(@"socket io opened.");
-    NSNotification *orderReloadNotification = [NSNotification notificationWithName:@"nf_socketio_conn_opened" object:nil];
+    NSNotification *orderReloadNotification = [NSNotification notificationWithName:nfSocketConnOpened object:nil];
     [[NSNotificationCenter defaultCenter] postNotification:orderReloadNotification];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
     DDLogInfo(@"socket io error.");
     
-    NSNotification *orderReloadNotification = [NSNotification notificationWithName:@"nf_socketio_error_occured" object:error];
+    NSNotification *orderReloadNotification = [NSNotification notificationWithName:nfSocketErrorOccured object:error];
     [[NSNotificationCenter defaultCenter] postNotification:orderReloadNotification];
     
     [self open];
@@ -89,12 +88,12 @@ static int ddLogLevel;
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
     DDLogInfo(@"socket io closed.");
-    NSNotification *orderReloadNotification = [NSNotification notificationWithName:@"nf_socketio_conn_closed" object:nil];
+    NSNotification *orderReloadNotification = [NSNotification notificationWithName:nfSocketConnClosed object:nil];
     [[NSNotificationCenter defaultCenter] postNotification:orderReloadNotification];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-    NSNotification *orderReloadNotification = [NSNotification notificationWithName:@"nf_socketio_msg_received" object:message];
+    NSNotification *orderReloadNotification = [NSNotification notificationWithName:nfSocketMsgReceived object:message];
     [[NSNotificationCenter defaultCenter] postNotification:orderReloadNotification];
 }
 @end
