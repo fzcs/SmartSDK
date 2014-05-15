@@ -37,19 +37,23 @@ Pod::Spec.new do |s|
   s.subspec 'Storable' do |ss|
     ss.source_files = 'SmartSDK/Storable/**/*.{h,m}'
   end
-  
+
   s.subspec 'Util' do |ss|
     ss.source_files = 'SmartSDK/Util/**/*.{h,m}'
   end
 
+  s.subspec 'WebSocket' do |ss|
+    ss.source_files = 'SmartSDK/WebSocket/**/*.{h,m}'
+  end
 
 
 
-  s.dependency 'AFNetworking', '~> 2.0'
+  s.dependency 'AFNetworking',               '~> 2.0'
   s.dependency 'AFNetworking-RACExtensions', '~> 0.1.2'
-  s.dependency 'jastor', '~> 0.2.1'
-  s.dependency 'CocoaLumberjack', '~> 1.8.1'
-  s.dependency 'ReactiveCocoa', '~> 2.0.0'
-  s.dependency 'libextobjc', '~> 0.4'
+  s.dependency 'jastor',                     '~> 0.2.1'
+  s.dependency 'CocoaLumberjack',            '~> 1.8.1'
+  s.dependency 'ReactiveCocoa',              '~> 2.0.0'
+  s.dependency 'libextobjc',                 '~> 0.4'
+  s.dependency 'SocketRocket',               '~> 0.3.1-beta2'
   
 end
