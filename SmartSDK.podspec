@@ -46,6 +46,10 @@ Pod::Spec.new do |s|
     ss.source_files = 'SmartSDK/WebSocket/**/*.{h,m}'
   end
 
+  s.subspec 'Config' do |ss|
+    ss.source_files = 'SmartSDK/Config/**/*.{h,m}'
+  end
+
 
 
   s.dependency 'AFNetworking',               '~> 2.0'
