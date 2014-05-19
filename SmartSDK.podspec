@@ -59,5 +59,6 @@ Pod::Spec.new do |s|
   s.dependency 'ReactiveCocoa',              '~> 2.0.0'
   s.dependency 'libextobjc',                 '~> 0.4'
   s.dependency 'SocketRocket',               '~> 0.3.1-beta2'
+  s.dependency 'SDWebImage',                 '~> 3.6.0'
   
 end
