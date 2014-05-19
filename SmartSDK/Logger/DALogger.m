@@ -8,6 +8,7 @@
 
 #import "DALogger.h"
 #import "DALoggerAFNetwork.h"
+#import "DALoggerSDWebImage.h"
 
 static int DALOG_LEVEL;
 
@@ -48,6 +49,7 @@ static int DALOG_LEVEL;
     }
 
     [[DALoggerAFNetwork sharedLogger] startLogging];
+    [[DALoggerSDWebImage sharedLogger] startLogging];
 
 }
 
