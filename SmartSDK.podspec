@@ -50,6 +50,9 @@ Pod::Spec.new do |s|
     ss.source_files = 'SmartSDK/Config/**/*.{h,m}'
   end
 
+  s.subspec 'UI' do |ss|
+    ss.source_files = 'SmartSDK/UI/**/*.{h,m}'
+  end
 
 
   s.dependency 'AFNetworking',               '~> 2.0'

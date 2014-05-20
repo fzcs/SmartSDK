@@ -34,6 +34,11 @@
 + (BOOL)store:(id)obj withKey:(NSString *)key;
 
 /**
+ 删除存储的对象
+ */
+- (void)deleteByKey:(NSString *)key;
++ (void)deleteByKey:(NSString *)key;
+/**
  存储文件的路径
  */
 @property(nonatomic, strong) NSString *storeDir;

@@ -66,6 +66,17 @@ static int ddLogLevel;
 }
 
 
+- (void)deleteByKey:(NSString *)key{
+    [_cacher removeObjectForKey:key];
+    NSString *path = [self filePathByKey:key];
+    if ([[NSFileManager defaultManager] isDeletableFileAtPath:path]) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    }
+}
++ (void)deleteByKey:(NSString *)key{
+    [[self sharedManager] deleteByKey:key];
+}
+
 - (instancetype)initWithCacher:(NSCache *)cacher {
     if ((self = [super init])) {
         _cacher = cacher;
