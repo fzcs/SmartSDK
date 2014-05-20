@@ -22,30 +22,28 @@ typedef id(^RACSignalErrorBlock)(NSError*);
 @implementation ImageViewModel
 -(id)init
 {
-    self = [super init];
-    self.requestManager = [RestHTTPRequestManager sharedManager];
-
-    return self;
+    return [self initWithFetchPath:nil fileId:nil];
 }
 
 -(id)initWithFetchPath:(NSString *)fetchPath
 {
-    self = [self init];
-    self.fetchPath = fetchPath;
-    return self;
+    return [self initWithFetchPath:fetchPath fileId:nil];
 }
 
 -(id)initWithFetchPath:(NSString *)fetchPath fileId:(NSString *)_id
 {
-    self = [self initWithFetchPath:fetchPath];
-    self.model = [[DAFile alloc] initWithDictionary:@{@"_id": _id}];
+    self = [super init];
+    self.requestManager = [RestHTTPRequestManager sharedManager];
+    self.fetchPath = fetchPath;
+    self.model = [[DAFile alloc] init];
+    self.model._id = _id;
 
     return self;
 }
 
 -(id)initAndFetchImageWithFetchPath:(NSString *)fetchPath fileId:(NSString *)_id
 {
-    self = [self initAndFetchImageWithFetchPath:fetchPath fileId:_id];
+    self = [self initWithFetchPath:fetchPath fileId:_id];
 
     [[self fetchImage] subscribeCompleted:^{
 
@@ -75,13 +73,13 @@ typedef id(^RACSignalErrorBlock)(NSError*);
 }
 
 
-#warning 临时方法，今后替换成RAC的实现
+//TODO 临时方法，今后替换成RAC的实现
 -(void)upLoadImageCompleted:(void (^)(void))completed
 {
     NSData *imageData = UIImageJPEGRepresentation(self.image, 0.5);
     self.requestManager.requestSerializer = [AFHTTPRequestSerializer serializer];
     self.requestManager.responseSerializer = [AFJSONResponseSerializer serializer];
-    [self.requestManager POST:@"/Picture/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [self.requestManager POST:self.uploadPath parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"files" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *data =[responseObject valueForKeyPath:@"data"];
@@ -102,7 +100,7 @@ typedef id(^RACSignalErrorBlock)(NSError*);
 
 -(void)setImageInImageView:(UIImageView *)imageView placeholderImage:(UIImage *)image
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/Picture/fetch?fileInfoId=%@",[RestHelper getServerAddress],self.model._id]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?fileInfoId=%@",[RestHelper getServerAddress],self.fetchPath,self.model._id]];
     [imageView setImageWithURL:url placeholderImage:image options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
         self.image = image;
     }];

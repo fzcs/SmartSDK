@@ -32,10 +32,11 @@ typedef id(^RACSignalErrorBlock)(NSError*);
 
 -(id)initWithModel:(id)model
 {
-    self = [self init];
+    self = [super init];
+    self.requestManager = [RestHTTPRequestManager sharedManager];
     self.model = model;
     self.modelClass = [model class];
-
+    
 
     return self;
 }
