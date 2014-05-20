@@ -55,13 +55,14 @@ Pod::Spec.new do |s|
   end
 
 
-  s.dependency 'AFNetworking',               '~> 2.0'
-  s.dependency 'AFNetworking-RACExtensions', '~> 0.1.2'
-  s.dependency 'jastor',                     '~> 0.2.1'
-  s.dependency 'CocoaLumberjack',            '~> 1.8.1'
-  s.dependency 'ReactiveCocoa',              '~> 2.0.0'
-  s.dependency 'libextobjc',                 '~> 0.4'
-  s.dependency 'SocketRocket',               '~> 0.3.1-beta2'
-  s.dependency 'SDWebImage',                 '~> 3.6.0'
+  s.dependency 'AFNetworking',               '2.2.4'
+  s.dependency 'AFNetworking-RACExtensions', '0.1.4'
+  s.dependency 'jastor',                     '0.2.1'
+  s.dependency 'CocoaLumberjack',            '1.8.1'
+  s.dependency 'ReactiveCocoa',              '2.3'
+  s.dependency 'libextobjc',                 '0.4'
+  s.dependency 'SocketRocket',               '0.3.1-beta2'
+  s.dependency 'SDWebImage',                 '3.6'
+  s.dependency 'Underscore.m',               '0.2.1'
   
 end
