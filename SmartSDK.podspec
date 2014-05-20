@@ -46,6 +46,13 @@ Pod::Spec.new do |s|
     ss.source_files = 'SmartSDK/WebSocket/**/*.{h,m}'
   end
 
+  s.subspec 'Config' do |ss|
+    ss.source_files = 'SmartSDK/Config/**/*.{h,m}'
+  end
+
+  s.subspec 'UI' do |ss|
+    ss.source_files = 'SmartSDK/UI/**/*.{h,m}'
+  end
 
 
   s.dependency 'AFNetworking',               '~> 2.0'
@@ -55,5 +62,6 @@ Pod::Spec.new do |s|
   s.dependency 'ReactiveCocoa',              '~> 2.0.0'
   s.dependency 'libextobjc',                 '~> 0.4'
   s.dependency 'SocketRocket',               '~> 0.3.1-beta2'
+  s.dependency 'SDWebImage',                 '~> 3.6.0'
   
 end
