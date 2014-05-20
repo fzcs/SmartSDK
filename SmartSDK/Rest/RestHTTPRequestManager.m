@@ -36,30 +36,35 @@
 
 - (RACSignal *)getPath:(NSString *)path parameters:(NSDictionary *)parameters
 {
+    self.requestSerializer = [AFJSONRequestSerializer serializer];
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     return [self rac_GET:path parameters:parameters];
 }
 
 - (RACSignal *)fethImage:(NSString *)path parameters:(NSDictionary *)parameters
 {
+    self.requestSerializer = [AFJSONRequestSerializer serializer];
     self.responseSerializer = [AFImageResponseSerializer serializer];
     return [self rac_GET:path parameters:parameters];
 }
 
 - (RACSignal *)postPath:(NSString *)path parameters:(NSDictionary *)parameters
 {
+    self.requestSerializer = [AFJSONRequestSerializer serializer];
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     return [self rac_POST:path parameters:parameters];
 }
 
 - (RACSignal *)putPath:(NSString *)path parameters:(NSDictionary *)parameters
 {
+    self.requestSerializer = [AFJSONRequestSerializer serializer];
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     return [self rac_PUT:path parameters:parameters];
 }
 
 - (RACSignal *)deletePath:(NSString *)path parameters:(NSDictionary *)parameters
 {
+    self.requestSerializer = [AFJSONRequestSerializer serializer];
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     return [self rac_DELETE:path parameters:parameters];
 }
