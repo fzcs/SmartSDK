@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ReactiveCocoa.h"
 
 @interface BaseListViewModel : NSObject
 @property NSArray *list;
@@ -16,10 +17,12 @@
 @property Class modelClass;
 @property NSDictionary *listCondition;
 
-- (id)initWithViewModelClass:(Class) modelClass
+- (id)initWithViewModelClass:(Class)modelClass
                      APIPath:(NSString *)path;
 
--(RACSignal *)reloadSignal;
--(RACSignal *)loadMoreSignal;
--(RACSignal *)loadSignal;
+- (RACSignal *)reloadSignal;
+
+- (RACSignal *)loadMoreSignal;
+
+- (RACSignal *)loadSignal;
 @end

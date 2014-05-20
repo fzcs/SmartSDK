@@ -14,25 +14,43 @@
 
 @interface BaseViewModel ()
 @property RestHTTPRequestManager* requestManager;
-
+@property Class modelClass;
 @end
 
 typedef id(^RACSignalErrorBlock)(NSError*);
 
 @implementation BaseViewModel
+
 -(id)init
 {
     self = [super init];
-    
-    return [self initWithModel:[[[self.model class] alloc] init]];
+
+    self.requestManager = [RestHTTPRequestManager sharedManager];
+
+    return self;
 }
 
 -(id)initWithModel:(id)model
 {
-    self = [super init];
+    self = [self init];
     self.model = model;
-    self.requestManager = [RestHTTPRequestManager sharedManager];
-    
+    self.modelClass = [model class];
+
+
+    return self;
+}
+
+-(id)initWithFetchPath:(NSString *)fetchPath filter:(NSDictionary *)fetchFilter modelClass:(Class) modelClass
+{
+    self = [self initWithModel:[[modelClass alloc] init]];
+    self.fetchAPIPath = fetchPath;
+    self.fetchFilter = fetchFilter;
+
+    [[self fetchSignal] subscribeCompleted:^{
+
+    }];
+
+
     return self;
 }
 
@@ -58,19 +76,19 @@ typedef id(^RACSignalErrorBlock)(NSError*);
 
 -(RACSignal *)createSignal
 {
-    
+
     NSMutableDictionary *data = [(Jastor *)self.model toDictionary];
-    
+
     NSDictionary *params = @{@"data": data};
-    
+
     RACSignal * sig = [[self.requestManager postPath:self.createAPIPath parameters:params] map:^id(id result) {
         NSDictionary *data =[result valueForKeyPath:@"data"];
-        
-        self.model = [[[self.model class] alloc] initWithDictionary:data];
-        
+
+        self.model = [[self.modelClass alloc] initWithDictionary:data];
+
         return result;
     }];
-    
+
     return [sig catch:self.errorBlock];
 }
 
@@ -78,18 +96,18 @@ typedef id(^RACSignalErrorBlock)(NSError*);
 -(RACSignal *)updateSignal
 {
     NSDictionary *data = [(Jastor *)self.model toDictionary];
-    
-    
+
+
     NSDictionary *params = @{@"filter":self.updateFilter,@"data": data};
-    
+
     RACSignal * sig = [[self.requestManager putPath:self.updateAPIPath parameters:params] map:^id(id result) {
         NSDictionary *data =[result valueForKeyPath:@"data"];
-        
-        self.model = [[[self.model class] alloc] initWithDictionary:data];
-        
+
+        self.model = [[self.modelClass alloc] initWithDictionary:data];
+
         return result;
     }];
-    
+
     return [sig catch:self.errorBlock];
 }
 
@@ -97,12 +115,12 @@ typedef id(^RACSignalErrorBlock)(NSError*);
 {
     RACSignal * sig = [[self.requestManager getPath:self.fetchAPIPath parameters:self.fetchFilter] map:^id(id result) {
         NSDictionary *data =[result valueForKeyPath:@"data"];
-        
-        self.model = [[[self.model class] alloc] initWithDictionary:data];
-        
+
+        self.model = [[self.modelClass alloc] initWithDictionary:data];
+
         return result;
     }];
-    
+
     return [sig catch:self.errorBlock];
 }
 

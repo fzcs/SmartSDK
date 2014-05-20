@@ -10,12 +10,15 @@
 #import "ReactiveCocoa.h"
 
 @interface RestHelper : NSObject
-+(RestHelper *)sharedInstance;
-+(BOOL)isLogin;
-+ (NSString *) getServerAddress;
-+ (NSString *) getServerHost;
-+ (NSString *) getServerAddress:(BOOL)isSecure;
++ (RestHelper *)sharedInstance;
 
-- (RACSignal*)authorize;
--(RACSignal *)authorizeInView:(UIView *)view;
++ (BOOL)hasLoginSession;
+
++ (NSString *)getServerAddress;
+
++ (NSString *)getServerHost;
+
+- (RACSignal *)authorizeInView:(UIView *)view;
+
+- (RACSignal *)authorizeWithUrl:(NSString *)path;
 @end

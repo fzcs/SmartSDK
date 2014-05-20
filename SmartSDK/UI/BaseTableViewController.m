@@ -7,6 +7,7 @@
 //
 
 #import "BaseTableViewController.h"
+#import <libextobjc/EXTScope.h>
 
 @interface BaseTableViewController ()
 
@@ -26,7 +27,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    self.tableView.dataSource = self.viewModel;
+
     self.refreshControl = [[UIRefreshControl alloc]init];
     
     @weakify(self);

@@ -7,31 +7,26 @@
 //
 
 #import "RestHelper.h"
-#import "AFNetworking.h"
-#import "RACAFNetworking.h"
-
-#define kAuthorizePath @"/login"
-
+#import "DAConfigManager.h"
 
 #define kHTTPHeaderCookieName   @"Set-Cookie"
 #define kHTTPHeaderCsrftoken    @"csrftoken"
 
 #define kHTTPCookie         @"jp.co.dreamarts.smart.sdk.cookie"
 #define kHTTPCsrfToken      @"jp.co.dreamarts.smart.sdk.csrftoken"
-#define kHTTPCookieName     @"ShotEyesWeb.sid"
 
 @interface RestHelper () <UIWebViewDelegate>
 @property RACSubject *authSignal;
+@property NSString *authUrl;
 @end
 
 @implementation RestHelper
 
-+(RestHelper *)sharedInstance
-{
++ (RestHelper *)sharedInstance {
     static RestHelper *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if(!instance) {
+        if (!instance) {
             instance = [[RestHelper alloc] init];
         }
     });
@@ -39,44 +34,43 @@
 }
 
 
-+(BOOL)isLogin
-{
++ (BOOL)hasLoginSession {
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSURL *url = [NSURL URLWithString:[RestHelper getServerAddress]];
-    NSArray *cookieArray=[cookieStorage cookiesForURL:url];
-    
+    NSArray *cookieArray = [cookieStorage cookiesForURL:url];
+
     BOOL isLogin = NO;
-    
-    for ( NSHTTPCookie *cookie in cookieArray) {
-        if ([kHTTPCookieName isEqualToString:cookie.name] && cookie.value) {
+
+    for (NSHTTPCookie *cookie in cookieArray) {
+        if ([[[DAConfigManager defaults] stringForKey:@"API_Cookie"] isEqualToString:cookie.name] && cookie.value) {
             isLogin = YES;
         }
     }
-//    
-//    if ([[NSUserDefaults standardUserDefaults] objectForKey:kHTTPCookie]) {
-//        return YES;
-//    }
-    
+
     return isLogin;
 }
 
 
 #pragma mark - authorize
-- (RACSignal*)authorize {
-    UIWindow* window = UIApplication.sharedApplication.windows[0];
-    UIView* view = [window.rootViewController view];
+- (RACSignal *)authorize {
+    UIWindow *window = UIApplication.sharedApplication.windows[0];
+    UIView *view = [window.rootViewController view];
     return [self authorizeInView:view];
 }
 
--(RACSignal *)authorizeInView:(UIView *)view
-{
-    UIWebView* webview = [[UIWebView alloc] init];
+- (RACSignal *)authorizeWithUrl:(NSString *)path {
+    self.authUrl = path;
+    return self.authorize;
+}
+
+- (RACSignal *)authorizeInView:(UIView *)view {
+    UIWebView *webview = [[UIWebView alloc] init];
     webview.delegate = self;
     [webview loadRequest:self.authorizeRequest];
-    
+
     [view addSubview:webview];
     webview.frame = view.frame;
-    
+
     self.authSignal = [RACSubject subject];
     return [self.authSignal finally:^{
         webview.delegate = nil;
@@ -84,10 +78,10 @@
     }];
 }
 
-- (NSURLRequest*)authorizeRequest {
-    NSString *url = [[RestHelper getServerAddress] stringByAppendingString:kAuthorizePath];
-    NSURLComponents* comp = [NSURLComponents componentsWithString:url];
-    
+- (NSURLRequest *)authorizeRequest {
+    NSString *url = [[RestHelper getServerAddress] stringByAppendingString:self.authUrl];
+    NSURLComponents *comp = [NSURLComponents componentsWithString:url];
+
     return [[NSURLRequest alloc] initWithURL:comp.URL];
 }
 
@@ -102,65 +96,48 @@
     [self.authSignal sendError:error];
 }
 
--(void)webViewDidStartLoad:(UIWebView *)webView
-{
-    
-    
-    if ([[[RestHelper getServerAddress] stringByAppendingString:kAuthorizePath] isEqualToString:[NSString stringWithFormat:@"%@", webView.request.URL]]) {
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+
+
+    if ([[[RestHelper getServerAddress] stringByAppendingString:self.authUrl] isEqualToString:[NSString stringWithFormat:@"%@", webView.request.URL]]) {
+
         NSCachedURLResponse *resp = [[NSURLCache sharedURLCache] cachedResponseForRequest:webView.request];
-        NSDictionary *headers = [(NSHTTPURLResponse*)resp.response allHeaderFields];
-        NSLog(@"%@",@"=======headers======");
-        NSLog(@"%@", headers);
+        NSDictionary *headers = [(NSHTTPURLResponse *) resp.response allHeaderFields];
+
         NSString *cookie = [headers objectForKey:kHTTPHeaderCookieName];
-        NSString *csrftoken = [headers objectForKey:kHTTPHeaderCsrftoken];
-        
-        NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        NSLog(@"%@",@"=======Cookie======");
-        for (NSHTTPCookie *cookie in [cookieStorage cookies]) {
-            NSLog(@"cookie name=%@", cookie.name);
-            NSLog(@"cookie value=%@", cookie.value);
-        }
-        
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        NSString *csrfToken = [headers objectForKey:kHTTPHeaderCsrftoken];
+
+        //将session信息备份一份,以备不时之需
         if (cookie != nil) {
-            [ud setObject:cookie forKey:kHTTPCookie];
+            [[DAConfigManager defaults] setObject:cookie forKey:kHTTPCookie];
         }
-        if (csrftoken != nil) {
-            [ud setObject:csrftoken forKey:kHTTPCsrfToken];
+        if (csrfToken != nil) {
+            [[DAConfigManager defaults] setObject:csrfToken forKey:kHTTPCsrfToken];
         }
-        //        [ud synchronize];
-//        NSLog(@"#####%@", [[NSUserDefaults standardUserDefaults] objectForKey:kHTTPCookie]);
-//        NSLog(@"#####%@", cookie);
-        
+
         [self.authSignal sendCompleted];
     }
 }
 
 #pragma mark -
 
-+ (NSString *) getServerAddress
-{
-    return [RestHelper getServerAddress:NO];
-}
-
-+ (NSString *) getServerHost
-{
-    return @"127.0.0.1";
-}
-
-+ (NSString *) getServerAddress:(BOOL)isSecure
-{
-    NSString *protocal = isSecure ? @"https" : @"http";
++ (NSString *)getServerAddress {
+    NSString *protocal = [[DAConfigManager defaults] stringForKey:@"API_Scheme"];
     NSString *address = [RestHelper getServerHost];
-    NSInteger port = 3000;
-    
-    
+    NSInteger port = [[DAConfigManager defaults] integerForKey:@"API_Port"];;
+
+
     NSString *url = [NSString stringWithFormat:@"%@://%@", protocal, address];
     if (port == 80) {
         return url;
     } else {
         return [url stringByAppendingFormat:@":%d", port];
     }
+
+}
+
++ (NSString *)getServerHost {
+    return [[DAConfigManager defaults] stringForKey:@"API_Host"];
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseListViewModel.h"
+#import "BaseListViewModel+TableDateSource.h"
 
 @interface BaseTableViewController : UITableViewController
 @property BaseListViewModel *viewModel;

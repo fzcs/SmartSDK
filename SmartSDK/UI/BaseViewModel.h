@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <libextobjc/EXTScope.h>
+#import <ReactiveCocoa.h>
 @interface BaseViewModel : NSObject
 @property (retain, nonatomic) id model;
 @property (retain, nonatomic) NSString *createAPIPath;

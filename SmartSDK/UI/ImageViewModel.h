@@ -18,6 +18,11 @@
 @property(retain,nonatomic) DAFile *model;
 @property(retain, nonatomic) UIImage *image;
 @property(retain, nonatomic) NSString* uploadPath;
+@property(retain, nonatomic) NSString* fetchPath;
 
--(void)upLoadImageThenDo:(void (^)(void))uploadDone;
+-(id)initWithFetchPath:(NSString *)fetchPath fileId:(NSString *)_id;
+-(id)initAndFetchImageWithFetchPath:(NSString *)fetchPath fileId:(NSString *)_id;
+
+-(void)upLoadImageCompleted:(void (^)(void))completed;
+-(void)setImageInImageView:(UIImageView *)imageView placeholderImage:(UIImage *)image;
 @end
