@@ -10,6 +10,7 @@
 #import <SmartSDK/RestHTTPRequestManager.h>
 #import <Underscore.h>
 #import "DAEntity.h"
+#import <RestHelper.h>
 
 
 typedef id(^RACSignalErrorBlock)(NSError *);
@@ -69,7 +70,16 @@ typedef id(^RACSignalErrorBlock)(NSError *);
         }
         return result;
     }];
-    return sig;
+    return [sig catch:self.errorBlock];
+    
+    
+//    if ([RestHelper hasLoginSession] ) {
+//        return [sig catch:self.errorBlock];
+//    } else {
+//        RestHelper *helper = [RestHelper sharedInstance];
+//        return [[[[helper authorizeWithUrl:@"/login"] catch:self.errorBlock] concat:sig] catch:self.errorBlock];
+//    }
+
 }
 
 @end
